@@ -1,0 +1,425 @@
+{module_webapps id="37517" filter="item" itemId="6686768" collection = "shopping_settings" template = ""}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shopping Cart - Getting You Organised</title>
+<script type="text/javascript" src="/ajaxpro/CMS.CatalogueRetrieve,Catalyst.Web.CMS.ashx"></script>
+<style>
+.site-header-wrap {
+    padding: 0 20px;
+    /*background: {{shopping_settings.items[0].['Shopping Cart Background-color']}};*/
+}
+#catCartDetails h1{
+	font-weight: bold;
+    background: #24b663;
+    color: #fff;
+    padding: 8px
+}
+#catCartDetails .shopping_cartholder{
+	background: #fffffe;
+	    padding: 60px 0 190px;
+	/*color: {{shopping_settings.items[0].['Shopping Cart Background-color']}};*/
+}
+#catCartDetails table th, #catCartDetails table td, #catCartDetails .total, .total h3{
+	color: #707071;
+}
+#catCartDetails input[type = "text"], .shippingDiv select, #catCartDetails input[type = "password"] {
+    color: #707071;
+    /*background: {{shopping_settings.items[0].['Shopping Cart Background-color']}};*/
+    border: 1px solid #707070;
+}
+#catCartDetails table tr {
+    height: 90px;
+	  border-bottom: 1px #707071 solid;
+}
+a.remove_prod {
+    font-size: 26px;
+}
+.upsell h4.text-center {
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #24b663;
+    color: #fffffe;
+    padding: 8px 0;
+	margin-bottom: 20px;
+}
+#catCartDetails .shop-btn{
+	font-size: 22px;
+	padding: 8px;
+	text-transform: uppercase;
+}
+#catCartDetails .shop-btn.clear{
+	font-size: 22px;
+	background: #707070;
+}
+.upsell .thumbnail>img {
+    max-height: 150px;
+}
+.close-alert{
+	background: transparent;
+    border: 1px #3c763d solid;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+.alert-warning .close-alert{
+    border: 1px #8a6d3b solid;
+}
+@media (max-width:991px) {
+    .close-alert{
+		display: inline-block;
+		vertical-align: top;
+		margin-right: 8px;
+	}
+	.discount_msg > span{
+		display: inline-block;
+    	max-width: 80%;
+	}
+}
+
+</style>
+</head>
+<body>
+<div class = "shopping_cartholder background">
+  <div class = "container">
+  	
+    <pre class = "hidden">{{shopping_settings.items[0].name}}</pre>
+    <h1>{{shopping_settings.items[0].['Shopping Cart Header']}}</h1>
+    <div class="alert alert-danger" style = "display:none;"> </div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Item Details</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Cost</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+        {% for item in this.items -%}
+        <tr>
+          <td><div class="row">
+              <div class="col-md-5"> <img class = "shop_prod_img" src = "{{item.imagePath}}" alt="{{item.name}}"> </div>
+              <div class="col-md-7 name"> <a href="{{item.url}}">{{item.name}} </a></div>
+            </div></td>
+          <td>{{item.productAmountExceptTax}}</td>
+          <td class="quantity"><input onchange="{{item.quantityInputOnChange}}" class="cartInputText" type="text" value="{{item.quantity}}"></td>
+          <td>{{item.productTotal}}</td>
+          <td><a href="#" class = "remove_prod" onclick="{{item.removeOnClick}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+        </tr>
+        {%endfor%}
+          </tbody>
+        
+      </table>
+    </div>
+
+    
+    <!-- free product -->
+    {%if shopping_settings.items[0].['Enable Free Product']%}
+    {%assign free_product_threshold = shopping_settings.items[0].["Free Product Amount Threshold"] | money %}
+    <div class="free-product-popup-container">  
+      <h3>
+          {{shopping_settings.items[0].["Free Product Message"] | replace: "[free_product_amount_threshold]", free_product_threshold}} 
+      </h3>
+      <span class = "special-ajax"><a href="">Please click here to see if you're eligible for the free product.</a></span>
+      
+      <!-- Free Products Begin -->
+      <div class="free-product-popup" style = "display: none">
+          <span class = "special-deactive" style = "display: none">
+              <strong>Cart Status:</strong>Not Eligible. The Total amount of all products must be {{free_product_threshold}} or greater before shipping and tax.
+          </span>
+          <span class="special-under-balance" style="display: none">
+              Your cart does not meet the minimum requirements. Please add products, update quantities or remove the free product from your cart. If you complete the order process and your order does not meet the requirements, your FREE PRODUCT will not ship.
+          </span>
+          <span class="special-active" style="display: none">
+              <strong>Cart Status:</strong> Eligible! 
+              <a data-src = "/free-product-popup" data-fancybox href="javascript:;" data-type = "ajax" class="fp-iframe">Claim your free product.</a>
+          </span>
+          <span class="special-used" style="display: none">
+              You had already selected your free product. To choose the different free product, remove the free product from your cart and add again.
+          </span>
+      </div>
+      <!-- End of free products -->
+    </div>
+    {%endif%}
+
+    <!--  -->
+
+    <div class="modal fade" id="free-products-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="class pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                <h3 class="modal-title">HTML5 is a markup language</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 product_img">
+                        <img src="http://img.bbystatic.com/BestBuy_US/images/products/5613/5613060_sd.jpg" class="img-responsive">
+                    </div>
+                    <div class="col-md-6 product_content">
+                        <h4>Product Id: <span>51526</span></h4>
+                        <div class="rating">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            (10 reviews)
+                        </div>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <h3 class="cost"><span class="glyphicon glyphicon-usd"></span> 75.00 <small class="pre-cost"><span class="glyphicon glyphicon-usd"></span> 60.00</small></h3>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="select">
+                                    <option value="" selected="">Color</option>
+                                    <option value="black">Black</option>
+                                    <option value="white">White</option>
+                                    <option value="gold">Gold</option>
+                                    <option value="rose gold">Rose Gold</option>
+                                </select>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="select">
+                                    <option value="">Capacity</option>
+                                    <option value="">16GB</option>
+                                    <option value="">32GB</option>
+                                    <option value="">64GB</option>
+                                    <option value="">128GB</option>
+                                </select>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-md-4 col-sm-12">
+                                <select class="form-control" name="select">
+                                    <option value="" selected="">QTY</option>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <div class="space-ten"></div>
+                        <div class="btn-ground">
+                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart</button>
+                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-heart"></span> Add To Wishlist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--  -->
+
+
+
+
+    {module_data resource="discountcodes" version="v3" fields="id,discountType,code,description,discountPercentageOrFixedAmount,discountThreshold,enabled" where="\{'code':'{{shopping_settings.items[0].['Featured/Selected Discount Code']}}'\}" skip="0" limit="10" order="id" collection="discounts"}
+   	{%if shopping_settings.items[0].["Enable Discount Message"] and shopping_settings.items[0].['Discount Code Enable'] %}
+   
+    {%if discounts.items[0].enabled %}
+    {%if discounts.items[0].discountThreshold > 0%}    
+    {%if productSubTotal < discounts.items[0].discountThreshold %}   
+    <div class="alert alert-warning collapse in discount_msg"> 
+    <button type="button" class="close-alert"><i class="fa fa-times"></i></button>
+    <span>
+    {%assign amount_needed = discounts.items[0].discountThreshold | minus: productSubTotal | money -%}
+    {%assign discount_threshold = discounts.items[0].discountThreshold | money -%}
+    
+    {%if discounts.items[0].discountType == 1 %}
+    {%assign discount_value = discounts.items[0].discountPercentageOrFixedAmount | times : 100 | floor | append: "% discount" -%}    
+    {%elsif discounts.items[0].discountType == 2 %}
+    {%assign discount_value = discounts.items[0].discountPercentageOrFixedAmount | money | append: " discount"-%}
+    {%elsif discounts.items[0].discountType == 3%}
+    {%assign discount_value = "Free Shipping" -%}
+    {%endif%}
+  	
+    {{shopping_settings.items[0].["Discount Warning Message(Use Tags w/ Square Brackets : discount_threshold , discount_value , additional_amount_to_avail_discount)"] | replace: "[discount_threshold]", discount_threshold | replace: "[discount_value]", discount_value | replace: "[additional_amount_to_avail_discount]", amount_needed}} 
+    </span>
+    </div>
+    {%endif%}
+    {%endif%}
+    {%if productSubTotal >= discounts.items[0]discountThreshold and this.discountCode == "" %}
+    <div class="alert alert-success collapse in discount_msg">    
+    <button type="button" class="close-alert"><i class="fa fa-times"></i></button>
+    <span>
+    {%if discounts.items[0].discountType == 1 %}
+    {%assign discount_value = discounts.items[0].discountPercentageOrFixedAmount | times : 100 | floor | append: "% discount" -%}    
+    {%elsif discounts.items[0].discountType == 2 %}
+    {%assign discount_value = discounts.items[0].discountPercentageOrFixedAmount | money | append: " discount" -%}
+    {%elsif discounts.items[0].discountType == 3%}
+    {%assign discount_value = "Free Shipping" -%}
+    {%endif%}
+    {{shopping_settings.items[0].["Discount Available Message(Use Tags w/ Square Brackets : discount_code , discount_value)"] | replace: "[discount_value]", discount_value | replace: "[discount_code]", shopping_settings.items[0].['Featured/Selected Discount Code'] }}     
+    </span>
+    </div>
+    {%endif%}
+    {%if this.discountCode != "" %}
+        {%assign display_thankyou_msg = false%}
+        {%if discounts.items[0].discountThreshold > 0%}
+            {%if productSubTotal >= discounts.items[0]discountThreshold %}
+              {%assign display_thankyou_msg = true%}
+            {%endif%}
+        {%else%}
+            {%assign display_thankyou_msg = true%}
+        {%endif%}
+        {%if display_thankyou_msg%}
+        <div class="alert alert-success collapse in discount_msg">    
+        <button type="button" class="close-alert"><i class="fa fa-times"></i></button>
+        <span>
+        Discount Code Applied. Thank you.  
+        </span>
+        </div>
+        {%endif%}
+    {%endif%}
+    {%endif%}
+    {%endif%} 
+    <div class="row">
+      <div class="col-md-4"> {%if shopping_settings.items[0].['Discount Code Enable']%}
+          <p>Discount Code</p>
+        <div class = "row">
+          <div class="col-md-6 mb-10"> {tag_discountcode} </div>
+          <div class="col-md-6 mb-10">
+            <input class="cta-btn cta-btn-sm discount_btn" onClick="return false;" type="button" value="Update" />
+          </div>
+        </div>
+        {%endif%}
+        {%if shopping_settings.items[0].['Gift Voucher']%}
+          <p>Gift Card Code</p>
+        <div class = "row">
+          <div class="col-md-6 mb-10"> {tag_giftvoucher} </div>
+          <div class="col-md-6 mb-10">
+            <input class="cta-btn cta-btn-sm" onClick="return false;" type="button" value="Update" />
+          </div>
+        </div>
+        {%endif%} </div>
+      <div class = "col-md-4"> {tag_shippingoptions} </div>
+      <div class = "col-md-4">
+        <div class="row">
+          <div class="total">
+            <div class="col-md-12">
+              <p>Sub-Total:<strong id = "total-price">{tag_productsubtotal}</strong></p>
+            </div>
+            <div class="col-md-12">
+              <p>Shipping and Handlings:<strong id = "shipping-price">{tag_shippingtotal}</strong></p>
+            </div>
+            {%if this.discountCode != ""%}
+              {%assign discount_amount_display = false%}
+              {%if discounts.items[0].discountThreshold > 0%}
+                  {%if productSubTotal >= discounts.items[0]discountThreshold %}
+                    {%assign discount_amount_display = true%}
+                  {%endif%}
+              {%else%}
+                  {%assign discount_amount_display = true%}
+              {%endif%}
+              {%if display_thankyou_msg%}
+              <div class="col-md-12">
+                {%if discounts.items[0].discountType == 1 %}
+                {%assign discount_value = discounts.items[0].discountPercentageOrFixedAmount | times: this.productGrandTotal | money-%}             
+             
+                {%elsif discounts.items[0].discountType == 2 %}
+                {%assign discount_value = discounts.items[0].discountPercentageOrFixedAmount | money -%}
+                {%elsif discounts.items[0].discountType == 3%}
+                {%assign discount_value = "Free Shipping"%}
+                {%endif%}
+                <p>Discount:<strong>{{discount_value}}</strong></p>
+              </div>
+              {%endif%}
+            {%endif%}
+            <div class="col-md-12">
+              <h3>TOTAL:<strong>{tag_invoicetotal}</strong></h3>
+            </div>
+            <div class="col-md-12"> 
+                <div class="row">
+                	<div class="col-md-6"><a onClick="return {{clearCartOnClick}};" href="#" class="cta-btn shop-btn clear">Clear Cart</a> </div>
+                    <div class="col-md-6"> <a onclick = "return {{buyButtonOnClick}};" href="{{buyUrl}}" class="cta-btn shop-btn">CHECK OUT</a></div>
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+    </div>
+</div>
+{%if shopping_settings.items[0].['Enable Upsell Message']%}
+<div class="upsell">
+  <div class="container">
+    <h4 class = "text-center">{{shopping_settings.items[0].['Upsell Message']}}</h4>
+    <div class = "row"> {%for cart_item in globals.cart.items %}
+      {%assign collection_name = "myData" | append: cart_item.productId %}
+      {module_data resource="relatedproducts" version="v3" fields="productId,relatedProductId,product,relatedProduct" skip="0" limit="1" where="\{'productId':'{{cart_item.productId}}'\}" order="relatedProductId" collection= "myData"} 
+      
+      
+      {%if myData.items %}
+      {%for prod in myData.items %}
+      {%for check_item in globals.cart.items %}
+      {%if prod.relatedProduct.id == check_item.productId %}
+      {%assign prod_exist = prod.relatedProduct.id%}
+      {%endif%}
+      {%endfor%}
+      {%unless prod.relatedProduct.id == prod_exist%}
+      <div class="col-md-3 col-sm-6">
+        <div class="thumbnail"> <img src="{{prod.relatedProduct.smallImage}}" alt="{{prod.relatedProduct.name}}">
+          <div class="caption">
+            <h3 class="thumbnail-title">{{prod.relatedProduct.name}}</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa, ipsam.</p>
+            <input class="cta-btn cta-btn-sm center_btn upsell_add" name="AddToCart_Submit" type="submit" value="Add To Cart" onclick="AddToCart({{cart_item.catalogId}},{{prod.relatedProductId}},'',18,'','',true);return false;">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      {%endunless%}
+      {%endfor%}
+      {%endif%}
+      
+      {%endfor%} </div>
+  </div>
+</div>
+{%endif%}
+<script type="text/javascript">
+  $(function() {
+    "use strict";
+
+    if({{shopping_settings.items[0].["Multiple Free Products"]}}){
+      var multiple = true;
+    }
+    else{
+      var multiple = false;
+    }
+    console.log(multiple);
+    freeProductPopup({{shopping_settings.items[0].["Free Product Amount Threshold"]}},"free-product-specials",multiple);
+//    // On Change of Elements That Trigger BC JS Events That Break Code  
+//    $document.on("change", ".cartInputText, #DiscountCode, #GiftVoucher, #shippingPostcode, .shippingDiv select", function(e) {
+//      var target = $(e.target);
+//      // If Element That Is Being Changed Is the Update Quantity Run Function to Maintain Selected Shipping Options
+//      if (target.is(".cartInputText")) {
+//        $("#DiscountCode").val("");
+//        $("#DiscountCode").trigger("change");
+//        setShippingOptions(selectedShippingOption);
+//      }
+//      // Get Current Shipping Option Value
+//      if (target.is("#ShippingOptions")) {
+//        selectedShippingOption = $(this).val();
+//      }
+//      //autoSelectShip(); // Run Auto Select First "Available Shipping Options"
+//      callback(); // Run Function for Custom Javascript After BC JS Events
+//    });
+  
+
+  // on load run
+  //autoSelectShip();  // Run Auto Select First "Available Shipping Options"
+//  callback(); // Run Function for Custom Javascript After BC JS Events
+  
+  
+});
+
+
+</script>
+</body>
+</html>

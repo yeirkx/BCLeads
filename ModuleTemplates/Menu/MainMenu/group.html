@@ -1,0 +1,15 @@
+<ul>
+{tag_menuchilditem}
+{%if globals.user.isLoggedIn%}
+<li>	
+	{module_logout}	
+</li>
+<li>
+	<a href="/favourites">Favourites</a>
+</li>
+{%endif%}
+<li>
+	{module_shoppingcartsummary, template="/Layouts/custom/cart.tpl"}
+</li>
+
+</ul>

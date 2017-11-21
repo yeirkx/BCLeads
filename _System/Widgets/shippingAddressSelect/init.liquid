@@ -1,0 +1,99 @@
+{% comment -%}
+** Shipping Address Select - Version 1.0 **
+** Copyright 2016, BC Academe, All Rights Reserved **
+
+This widget allows you to add a dropdown box on your checkout form so the customer can select from previously used shipping addresses.
+
+Outputs:
+	- An html dropdown (select) with the respective shipping addresses as options
+	- The dropdown will only show up for logged in users who have past orders with a shipping address to the same state (as selected on the shopping cart page)
+	- The shipping options shown will be limited to the state selected on the shopping cart page
+	- This widget will detect duplicate addresses and will not show the same address in the dropdown more than once
+	- Once a user selects a shipping address from the dropdown, this widget will automatically update the values of the shipping fields on the checkout form. No modification to the checkout form is needed.
+
+Installation:
+	- Place this tag on the Checkout Page (/Layouts/OnlineShop/order_registration.html) page wherever you would like the dropdown to appear:
+	- {% include "/_System/Widgets/shippingAddressSelect/init.liquid" -%}
+
+Styling:
+	- By default the select will be assigned to the class "shippingSelect". You can target this element in your css to style it
+	- Optionally a custom class can be assigned to the select (see inputs)
+	
+Dependancies:
+	- This widget requires that Jquery be installed on the page and called before this widget is referenced. If jquery is not being used on the website you can make a call to jquery with the call to this widget (see imputs)
+	
+Inputs:
+
+	w_shippingAddressSelect_selectClass (optional: defaults to "shippingSelect")
+    	- Specifies the class assigned to the select (dropdown).
+		- Place the assignment of this variable before the plugin call
+		- Example Installation:
+			{% assign w_shippingAddressSelect_selectClass = "myCustomClass" -%}
+			{% include "/_System/Widgets/shippingAddressSelect/init.liquid" -%}
+	w_shippingAddressSelect_jQuery (optional: defaults to false)
+		- If set to "true" this widget will outut a reference to a hosted version of jQuery library
+		- Only set this to true if your website does not have jQuery installed
+		- Example Installation:
+			{% assign w_shippingAddressSelect_jQuery = "true" -%}
+			{% include "/_System/Widgets/shippingAddressSelect/init.liquid" -%}
+
+{% endcomment -%}
+
+{% if w_shippingAddressSelect_jQuery == "true" -%}<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>{% endif -%}
+<script src="/_System/Widgets/shippingAddressSelect/shippingAddressSelect.js" type="text/javascript"></script>
+{% capture w_shippingAddressSelect_selectClass -%}{{w_shippingAddressSelect_selectClass | default:"shippingSelect"}}{% endcapture -%}
+{% assign w_shippingAddressSelect_shippingAddress = "" -%}
+{% if globals.user.entityId > 0 -%}
+	{module_data resource="customers" version="v3" fields="id" subresource="orders" resourceId="{{globals.user.entityId}}" skip="0" limit="500" order="id" collection="w_shippingAddressSelect_myOrders"}
+	{% if w_shippingAddressSelect_myOrders.totalItemsCount > 0 -%}
+		{% for order in w_shippingAddressSelect_myOrders.items -%}
+			{module_data resource="orders" version="v3" fields="addressType,address1,address2,zipCode,city,countryCode,state" subresource="addresses" resourceId="{{order.id}}" skip="0" limit="10" order="id" collection="w_shippingAddressSelect_orderAddresses"}
+			{% for address in w_shippingAddressSelect_orderAddresses.items -%}
+				{% if address.addressType == 5 -%}
+				{% capture w_shippingAddressSelect_shippingAddress -%}{{w_shippingAddressSelect_shippingAddress}}|{{address}}{% endcapture -%}
+				{% endif -%}
+			{% endfor -%}
+		{% endfor -%}
+		{% assign w_shippingAddressSelect_shippingAddress = w_shippingAddressSelect_shippingAddress | split:"|" -%}
+		
+
+		{% assign w_shippingAddressSelect_outputtedAddresses = "" -%}
+		{% for address in w_shippingAddressSelect_shippingAddress -%}
+			{% unless w_shippingAddressSelect_outputtedAddresses contains address -%}
+			
+			{% assign w_shippingAddressSelect_state = address | split: "[state, " -%}
+			{% assign w_shippingAddressSelect_state = w_shippingAddressSelect_state[1] | split: "]" -%}
+			{% assign w_shippingAddressSelect_state = w_shippingAddressSelect_state[0] -%}
+			
+			{% if w_shippingAddressSelect_state != "" -%}
+
+				{% assign w_shippingAddressSelect_address1 = address | split: "[address1, " -%}
+				{% assign w_shippingAddressSelect_address1 = w_shippingAddressSelect_address1[1] | split: "]" -%}
+				{% assign w_shippingAddressSelect_address1 = w_shippingAddressSelect_address1[0] -%}
+
+				{% assign w_shippingAddressSelect_city = address | split: "[city, " -%}
+				{% assign w_shippingAddressSelect_city = w_shippingAddressSelect_city[1] | split: "]" -%}
+				{% assign w_shippingAddressSelect_city = w_shippingAddressSelect_city[0] -%}
+
+				{% assign w_shippingAddressSelect_zipCode = address | split: "[zipCode, " -%}
+				{% assign w_shippingAddressSelect_zipCode = w_shippingAddressSelect_zipCode[1] | split: "]" -%}
+				{% assign w_shippingAddressSelect_zipCode = w_shippingAddressSelect_zipCode[0] -%}
+
+				{% assign w_shippingAddressSelect_countryCode = address | split: "[countryCode, " -%}
+				{% assign w_shippingAddressSelect_countryCode = w_shippingAddressSelect_countryCode[1] | split: "]" -%}
+				{% assign w_shippingAddressSelect_countryCode = w_shippingAddressSelect_countryCode[0] -%}
+			
+				{% if w_shippingAddressSelect_outputtedAddresses == "" -%}
+					<select class="{{w_shippingAddressSelect_selectClass}}" id="w_shippingAddressSelect">
+					<option value="">Select Shipping Address From Past Orders to {{shippingState}}</option>
+				{% endif -%}
+				<option data-address="{{w_shippingAddressSelect_address1}}" data-city="{{w_shippingAddressSelect_city}}" data-zipCode="{{w_shippingAddressSelect_zipCode}}" data-state="{{w_shippingAddressSelect_state}}" data-countryCode="{{w_shippingAddressSelect_countryCode}}" value="{{w_shippingAddressSelect_address1}} {{w_shippingAddressSelect_zipCode}}, {{w_shippingAddressSelect_state}} {{w_shippingAddressSelect_countryCode}}">{{w_shippingAddressSelect_address1}} {{w_shippingAddressSelect_city}}, {{w_shippingAddressSelect_state}} {{w_shippingAddressSelect_zipCode}} {{w_shippingAddressSelect_countryCode}}</option>
+				{% capture w_shippingAddressSelect_outputtedAddresses -%}{{w_shippingAddressSelect_outputtedAddresses}}{{address}}{% endcapture -%}
+			{% endif -%}
+			{% endunless -%}
+			
+		{% endfor -%}
+		{% unless w_shippingAddressSelect_outputtedAddresses == "" -%}</select>{% endunless -%}
+
+	{% endif -%}
+{% endif -%}

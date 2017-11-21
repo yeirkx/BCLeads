@@ -1,0 +1,173 @@
+{
+  "id": "4305",
+  "name": "Video Squeeze",
+  "mobile": true,
+  "notes": "cta button defaults to leadbox",
+  "syntax": 4,
+  "version": 1.35,
+  "style": {
+    "html": "",
+    "replacements": [
+      {
+        "type": "color",
+        "name": "Header Background",
+        "find": "#fffffe"
+      },
+      {
+        "type": "color",
+        "name": "Header Phone",
+        "find": "#333333"
+      },
+      {
+        "type": "color",
+        "name": "Content Background",
+        "find": "#2796d6"
+      },
+      {
+        "type": "color",
+        "name": "Footer Background",
+        "find": "#026fae"
+      },
+      {
+        "type": "color",
+        "name": "Button Primary Color",
+        "find": "#ffb72b"
+      },
+      {
+        "type": "color",
+        "name": "Button Secondary Color",
+        "find": "#e89e0f"
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": "site-header",
+      "name": "Header",
+      "type": "container"
+    },
+    {
+      "comment": "Recommended image size is 157x34",
+      "data": {
+        "max-width": 200,
+        "max-height": 100
+      },
+      "id": "site-header-image",
+      "name": "Logo",
+      "type": "image"
+    },
+    {
+      "id": "site-header-phone",
+      "name": "Phone",
+      "type": "text"
+    },
+    {
+      "id": "section-content-title",
+      "name": "Title",
+      "type": "text"
+    },
+    {
+      "id": "section-content-sharing",
+      "name": "Sharing Buttons",
+      "type": "container"
+    },
+    {
+      "id": "section-content-sharing-facebook",
+      "name": "Facebook",
+      "type": "dynamic",
+      "data": {
+        "variables": ["facebookurl"]
+      }
+    },
+    {
+      "id": "section-content-sharing-twitter",
+      "name": "Twitter",
+      "type": "dynamic",
+      "data": {
+        "variables": ["twitterurl"]
+      }
+    },
+    {
+      "id": "section-content-sharing-google",
+      "name": "Google+",
+      "type": "dynamic",
+      "data": {
+        "variables": ["googleurl"]
+      }
+    },
+    {
+      "id": "section-content-video",
+      "name": "Video",
+      "type": "video"
+    },
+    {
+      "comment": "Recommended image size is 48x120",
+      "data": {
+        "max-width": 150,
+        "max-height": 150
+      },
+      "id": "section-content-arrow",
+      "name": "Arrow",
+      "type": "image"
+    },
+    {
+      "comment": "Fade-in container",
+      "data": {
+        "delay": 0
+      },
+      "id": "fade-in-container",
+      "name": "Fade-In Container",
+      "type": "container"
+    },
+    {
+      "id": "section-content-button",
+      "name": "Button",
+      "type": "link",
+      "data": {
+        "href": "#/optin"
+      }
+    },
+    {
+      "id": "section-content-notice",
+      "name": "Notice",
+      "type": "container"
+    },
+    {
+      "comment": "Recommended image size is 13x16",
+      "data": {
+        "max-width": 16,
+        "max-height": 16
+      },
+      "id": "section-content-notice-lock",
+      "name": "Lock",
+      "type": "image"
+    },
+    {
+      "id": "section-content-notice-text",
+      "name": "Text",
+      "type": "text"
+    },
+    {
+      "id": "site-footer",
+      "name": "Footer",
+      "type": "text"
+    }
+  ],
+  "variables": {
+    "facebookurl": {
+      "variable": "facebookurl",
+      "dafault": "",
+      "name": "The URL to share on Facebook. Leave blank to share the current page."
+    },
+    "twitterurl": {
+      "variable": "twitterurl",
+      "dafault": "",
+      "name": "The URL to share on Twitter. Leave blank to share the current page."
+    },
+    "googleurl": {
+      "variable": "googleurl",
+      "dafault": "",
+      "name": "The URL to share on Google+. Leave blank to share the current page."
+    }
+  }
+}

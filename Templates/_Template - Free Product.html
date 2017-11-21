@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Smart Product Template</title>        
+    	{module_contentholder name="Google Tag Manager"}
+        {% include "/_System/Includes/Templates/_head-Shop.inc" -%}
+    </head>
+    <body>
+    <!-- BODY WRAPPER -->
+		<div class="body-wrapper">
+        	
+                {tag_pagecontent}
+
+                
+            {% include "/_System/Includes/Templates/_body-close-Smart-Template.inc" -%}
+
+            <script type="text/javascript">
+            //send user to homepage if they did not access this page from shopping cart
+            // if(document.referrer.indexOf("OrderRetrieve") == -1) window.location = "/";
+
+            //Disable BC popup
+            window.alert = function(msg){};
+
+            //Bring the user back to Shopping cart page
+            $(".productSubmitInput").click(function(e){
+                parent.location.reload(true);
+            });
+            </script>
+            <pre style="display: none;">{{globals|json}}</pre>
+     	</div>
+    </body>
+</html>

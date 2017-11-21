@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Smart Product Template</title>        
+    	{module_contentholder name="Google Tag Manager"}
+        {% include "/_System/Includes/Templates/_head-Shop.inc" -%}
+    </head>
+    <body>
+    <!-- BODY WRAPPER -->
+		<div class="body-wrapper">
+        	{% include "/_System/Includes/Templates/header-Smart-Template.inc" -%}
+            {% include "/ModuleTemplates/WebApps/PageControl/headers.tpl" -%}
+                <div id="error_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                    <div class="modal-dialog container">
+                        <div class="row">
+                            <div class="modal-bg" data-dismiss="modal"></div>
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="modal-header">                                
+                                    <h4 class="modal-title text-left"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ERROR</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="modal-content"></div>
+                                    <!-- .modal-content -->
+                                </div>                            
+                                <!-- .modal-body -->
+                                <div class="modal-footer">                               
+                                    <a href = "#" class = "btn" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</a>
+                                </div>
+                            </div>
+                            <!-- .col-sm-6 -->
+                        </div>
+                        <!-- .row -->
+                    </div>
+                    <!-- .modal-dialog -->
+                </div>
+                {tag_pagecontent}
+
+                <!-- Modal -->
+                <div id="login-modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="loginmodal-container">
+                            <h1>Login to Your Account</h1><br>
+                            <form name="catseczoneform79084" onsubmit="return checkWholeForm79084(this)" method="post" action="/ZoneProcess.aspx?ZoneID=-1&Referrer={module_siteUrl,true,true}&OID={module_oid}&OTYPE={module_otype}" id="login-form">
+                                <input type="text" name="Username" id="SZUsername" maxlength="255" placeholder = "Username"/>
+                                <input type="password" name="Password" id="SZPassword" maxlength="255" autocomplete="off" placeholder = "Password" />
+                                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+
+                                <script type="text/javascript">
+                                //<![CDATA[
+    
+
+
+                                        function checkWholeForm79084(theForm){
+                                            
+                                            var why = "";if (theForm.Username) why += isEmpty(theForm.Username.value, "Username");
+                                            if (theForm.Password) why += isEmpty(theForm.Password.value, "Password");
+                                            if (why != ""){
+                                                alert(why);
+                                                return false;
+                                            }
+                                            if (isFavoriteClicked) {
+                                                        jQuery.ajax({
+                                                            type: 'Post',
+                                                            url: theForm.action,
+                                                            data: $('#' + theForm.id).serialize(),
+                                                            success: function(msg) {
+                                                                if ($(msg).find('.system-error-message').length != 0) {
+                                                                    alert("Incorrect username or password");
+                                                                    console.log(msg);
+                                                                    $('#login-modal').modal('hide')
+                                                                } else {
+                                                                    console.log("loggedIn");
+                                                                    isFavoriteFormSubmitted = true;
+                                                                    $('.add-to-wishlist .favoritelink').trigger("click");
+                                                                    
+                                                                    //$('#myModal').modal('hide')
+                                                                    //document.location.href = document.location.href;
+                                                                }
+                                                            },
+                                                            error: function(msg) {
+                                                                console.log(msg);
+                                                                $('#login-modal').modal('hide')
+                                                            }
+                                                        });
+                                                    } else {
+                                                        theForm.submit();
+                                                    }
+
+                                            return false;
+                                        }
+                                    //]]>
+                                </script>
+                            </form>
+                    
+                            <div class="login-help">
+                                <a href="#">Register</a> - <a href="/_System/SystemPages/PasswordRetrieveRequest">Forgot Password</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          
+            
+            {% include "/ModuleTemplates/WebApps/PageControl/modules.tpl" -%}
+            {% include "/_System/Includes/Templates/Footer-Smart-Template.inc" -%}
+            <script type="text/javascript" src="/CatalystScripts/ValidationFunctions.js?vs=b2324.r509702-phase1"></script>
+
+            {% include "/_System/Includes/Templates/_body-close-Smart-Template.inc" -%}
+
+            <script type="text/javascript">
+                var buyNow = document.querySelectorAll('.productItem .productSubmitInput');
+                for(var i =0; i < buyNow.length; i++){
+                    buyNow[i].className = buyNow[i].className + ' cta-btn ';
+                }	
+            </script>
+            <script type="text/javascript">
+
+            </script>
+            <pre style="display: none;">{{globals|json}}</pre>
+     	</div>
+    </body>
+</html>

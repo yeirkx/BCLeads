@@ -1,0 +1,61 @@
+<div class="container">
+	<div class="course">
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="main-course-video">
+					<!-- <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" poster="{tag_video poster_value}" data-setup="{}"> -->
+						<!-- <source src="{tag_video_value}" type='video/mp4'> -->
+					<!-- </video> -->
+				</div>
+				<div class="progress-container">
+					<span>0%</span>&nbsp;&nbsp;Complete
+					<div class="progress">		        		
+			  			<div class="progress-bar" style="width:0;"></div>
+					</div>
+				</div>
+				<div class="chapters">
+					<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					{module_webapps id="38340" filter="all" collection = "chapters" template = ""}
+					<pre class="hidden">{{chapters | json}}</pre>
+					{%for chapter in chapters.items%}
+					{%if this.itemid == chapter.Course_id%}
+						<div class="panel panel-default">
+				            <div class="panel-heading" role="tab" id="headingOne">
+				            	
+				                <h4 class="panel-title">				                	
+				                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{chapter.itemId}}" aria-expanded="true" aria-controls="collapseOne">
+				                    	<i class="fa fa-square-o" aria-hidden="true"></i>
+				                        <i class="more-less glyphicon glyphicon-plus"></i>
+				                        {{chapter.name}}
+				                    </a>
+				                </h4>
+				            </div>
+				            <div id="collapse{{chapter.itemId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+				                <div class="panel-body">
+				                    {module_webapps render="item" id="38340" filter="item" itemId="{{chapter.itemId}}"}
+				                </div>
+				            </div>
+				        </div>
+				    {%endif%}
+			        {%endfor%}
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="tutorial-name">
+					<h2>{tag_name}</h2>
+				</div>
+				<div class="tutorial-description">
+					{tag_description}
+				</div>
+				<div class="tutorial-add-to-favourites">
+				{tag_addtofavorites,<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;Add to Favourites, <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;Remove from Favourites}
+				</div>
+
+				{module_webapps render="item" id="38337" filter="item" itemId="{{this.['Course Instructor_ID']}}"}
+				
+			</div>
+		</div>
+		
+	</div>
+</div>

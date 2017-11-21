@@ -1,0 +1,58 @@
+<div class="container">
+	<div class="tutorial">
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="tutorial-video" data-video-url = "{tag_video_value}">
+					<!-- <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" poster="{tag_video poster_value}" data-setup="{}"> -->
+						<!-- <source src="{tag_video_value}" type='video/mp4'> -->
+					<!-- </video> -->
+				</div>
+				<div class="resources">
+					{%if this.['Enable HTML'] %}
+					<h2>HTML</h2>
+					<pre><xmp> {{this.['HTML']}} </xmp></pre>
+					{%endif%}
+					{%if this.['Enable CSS'] %}
+					<h2>CSS</h2>
+					<pre><xmp> {{this.['CSS']}} </xmp></pre>
+					{%endif%}
+					{%if this.['Enable JS'] %}
+					<h2>JS</h2>
+					<pre><xmp> {{this.['JS']}} </xmp></pre>
+					{%endif%}
+					{%if this.['Enable Download Resources']%}
+					{module_literature filter="all" collection="downloads" template=""}
+						
+						<h2>Download Resources</h2>
+						{% for item in downloads.items -%}
+					        {% assign mediaName = item.name %}
+					        {% assign appName = this.name %}
+					          	{% if mediaName contains appName -%}
+					            	<a href="{{item.fileUrl}}"><p class="literature-container" style="border-bottom: 1px solid #e5e5e5;padding-bottom: 15px;"> 
+									    <span class="icon"><img src="{{item.iconUrl}}"></span> <span class="name">{{item.name | remove: ' - ' | remove: appName}}</span> ({{item.fileSize}} KB) 
+									    <i class="fa fa-download pull-right" aria-hidden="true"></i>
+									</p> </a> 
+					          	{% endif -%}
+					    {% endfor -%}
+						
+					{%endif%}
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="tutorial-name">
+					<h2>{tag_name}</h2>
+				</div>
+				<div class="tutorial-description">
+					{tag_description}
+				</div>
+				<div class="tutorial-add-to-favourites">
+				{tag_addtofavorites,<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;Add to Favourites, <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;Remove from Favourites}
+				</div>
+
+				{module_webapps render="item" id="38337" filter="item" itemId="{{this.['Tutorial Instructor_ID']}}"}
+				
+			</div>
+		</div>
+		
+	</div>
+</div>

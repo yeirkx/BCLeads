@@ -1,0 +1,30 @@
+.green-bg p {
+    margin: 0;
+}
+.green-bg {
+    background-color: #21a65b;
+    width: 100%;
+    color: #fff;
+    padding: 8px;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
+label {
+    color: #707071 !important;
+}
+#catshopcontinue {
+    background: #21a65b;
+    color: #fff;
+    font-size: 16px;
+    padding: 11px 30px;
+    border-radius: 5px;
+    border: 1px solid #21a65b;
+    text-decoration: none !important;
+}
+#catshopcontinue:hover {
+    background: transparent;
+    transition: all ease 0.5s;
+    color: #21a65b;
+}

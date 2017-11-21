@@ -1,0 +1,117 @@
+<div class = "row">
+    <div class="col-sm-4">
+        <div class="prod_img">
+            <img id="zoom_{tag_productid}" class="zoom-img img-responsive" src='{tag_largeimage_path}'/>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="product-content">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#prod-details"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;&nbsp;Details</a></li>                     
+            </ul>
+
+            <div class="tab-content">
+                <div id="prod-details" class="tab-pane fade in active tmargin-15">
+                <div class="col-sm-6">
+                    <div class="prod-title">
+                        <h3>{tag_name}</h3>
+                    </div>
+                    <div class="footer-cta__prices bmargin-15" data-lead-id="footer-cta-prices">
+                        <p class="prices__buy-now" data-lead-id="prices-buy-now">{tag_saleprice}</p>
+                        <p class="prices__original" data-lead-id="prices-original">{tag_retailprice}</p>       
+                    </div>
+                    <div class="meta-description">
+                        <p>{tag_productmetadescription}</p>
+                    </div>
+                    <div class="quick-add-cart">
+                        <p>Qty:</p>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                {tag_addtocartinputfield}
+                            </div>
+                            <div class="col-sm-7">
+                                {tag_addtocart}
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="prod_vid_container">
+                        <a data-fancybox href="{tag_custom1}" class="prod_vid_link">
+                          Video
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="complete-description"> {tag_description} </div>
+                    <div class="add-to-wishlist">
+                        {tag_addtofavorites,
+                          <button class="btn btn-primary fav-add favorite-btn"><i class="fa fa-heart" aria-hidden="true"></i> Add to favourites </button>
+                          ,
+                          <button class="btn btn-primary fav-remove favorite-btn"><i class="fa fa-times" aria-hidden="true"></i> Remove from favorites</button>
+                          } 
+                    </div>
+                    <div class="related-prod-container">
+                    <h4>Related Products</h4>
+                        <div class="row">
+                            {tag_relatedproducts,, collection="relatedProds" template=""}
+                            {%if relatedProds.items %}
+                                {%for prod in relatedProds.items%}
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class = "prod-item">
+                                            <a href="{{prod.url}}">
+                                            <img alt="" src="{{prod.smallImage}}" class="footer-cta__hero-img" data-lead-id="footer-cta-hero-img" />
+                                            </a>
+                                            <div class = "prod-title">
+                                                <h3><a href="{{prod.url}}">{{prod.name}}</a></h3>
+                                            </div>
+                                            <div class="footer-cta__prices" data-lead-id="footer-cta-prices">
+                                                <p class="prices__buy-now" data-lead-id="prices-buy-now">{{prod.salePrice}}</p>
+                                                <p class="prices__original" data-lead-id="prices-original">{{prod.retailPrice}}</p>       
+                                            </div>
+                                            
+                                        </div> 
+                                    </div>
+                                {%endfor%}
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+                <div id="prod-ratings" class="tab-pane fade">
+                    <h3>Menu 1</h3>
+                    <p>Some content in menu 1.</p>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var isFavoriteClicked = false;
+    var isFavoriteFormSubmitted = false;
+    $(".add-to-wishlist .favoritelink").click(function(e){
+        
+        e.preventDefault();
+        var button = $(this);
+        isFavoriteClicked = true;
+        console.log({{globals.user.isLoggedIn}});
+        var isLoggedIn = '{{globals.user.isLoggedIn}}';
+        if (isLoggedIn == 'true' || isFavoriteFormSubmitted) {
+            jQuery.ajax({
+                url: $(this).attr('href'),
+                cache: false,
+                success: function(msg){
+                    document.location.href = document.location.href;
+                }
+            });  
+        }
+        else{
+            $('#login-modal').modal('show');
+        }
+    });
+</script>

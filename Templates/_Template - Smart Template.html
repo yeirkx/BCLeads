@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Smart Product Template</title>
+{% include "/_System/Includes/Templates/_head-Smart-Template.inc" -%}
+</head>
+<body>
+    <div class="body-wrapper">
+        {module_contentholder name="Google Tag Manager"}
+        {% include "/_System/Includes/Templates/header-Smart-Template.inc" -%}
+        {% include "/ModuleTemplates/WebApps/PageControl/headers.tpl" -%}
+        {tag_pagecontent}
+        {% include "/ModuleTemplates/WebApps/PageControl/modules.tpl" -%}
+        {% include "/_System/Includes/Templates/Footer-Smart-Template.inc" -%}
+        {% include "/_System/Includes/Templates/_body-close-Smart-Template.inc" -%}
+        <script type="text/javascript">
+            var buyNow = document.querySelectorAll('.productItem .productSubmitInput');
+            for(var i =0; i < buyNow.length; i++){
+                buyNow[i].className = buyNow[i].className + ' cta-btn ';
+            }	
+        </script>
+        
+        <pre style="display:none;">{{globals|json}}</pre>
+    </div>
+</body>
+</html>

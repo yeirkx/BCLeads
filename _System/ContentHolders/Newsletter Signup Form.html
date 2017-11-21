@@ -1,0 +1,40 @@
+<!-- Modal -->
+<div class="modal fade" id="SignUpModal" tabindex="-1" role="dialog" aria-labelledby="SignUpModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<script type="text/javascript" src="/CatalystScripts/ValidationFunctions.js?vs=b2133.r498670-phase1"></script>
+<form name="catemaillistform66465" onsubmit="return checkWholeForm66465(this)" method="post" action="/CampaignProcess.aspx?ListID=61173&amp;OPTIN=true">
+    <div class="modal-header">
+    <h3 class="modal-title" id="SignUpModalLabel">NEWSLETTER SIGN-UP</h3>
+    </div>
+    <div class="modal-body">
+    <div class="newsletter-form">
+    <div class="form">
+    <div class="item">
+    <label class="form-label" for="CLFullName">Full Name</label>
+    <input class="form-control" type="text" name="FullName" id="CLFullName" maxlength="255" />
+    </div>
+    <div class="item">
+    <label class="form-label" for="CLEmailAddress">Email Address</label>
+    <input class="form-control" type="text" name="EmailAddress" id="CLEmailAddress" maxlength="255" />
+    </div>
+    <div class="item captcha-row">
+    <label class="form-label">Enter Word Verification in box below</label>
+    <div class="captcha-wrapper">{module_captchav2}</div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="cancel cta-btn" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="submit cta-btn">Submit</button>
+    </div>
+    <script type="text/javascript">
+//<![CDATA[
+function checkWholeForm66465(theForm){var why = "";if (theForm.EmailAddress) why += checkEmail(theForm.EmailAddress.value);if (theForm.CaptchaV2) why += captchaIsInvalid(theForm, "Enter Word Verification in box below", "Please enter the correct Word Verification as seen in the image"); if (theForm['g-recaptcha-response']) why += reCaptchaV2IsInvalid(theForm, "Please prove you're not a robot");if (why != ""){alert(why);return false;}theForm.submit();return false;}
+//]]>
+</script>
+</form>
+</div>
+</div>
+</div>

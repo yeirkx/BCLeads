@@ -1,0 +1,124 @@
+{module_webapps id="37517" filter="item" itemId="6686768" collection = "shopping_settings" template = ""}
+
+{%if shopping_settings.items[0].['Product List Layout'] == "Many Products"%}
+<div class="col-sm-8 col-md-3">
+	<div class = "prod-item">
+        
+        <img alt="" src="{tag_smallimage_path}" class="footer-cta__hero-img" data-lead-id="footer-cta-hero-img" />
+        
+        <div class = "prod-title">
+            <h3>{tag_name_nolink}</h3>
+        </div>
+        <div class="footer-cta__prices" data-lead-id="footer-cta-prices">
+            <p class="prices__buy-now" data-lead-id="prices-buy-now">{tag_saleprice}</p>
+            <p class="prices__original" data-lead-id="prices-original">{tag_retailprice}</p>       
+        </div>
+        <div class="overlay-box">
+            <div class="overlay-inner">
+                <div class="overlay-content">
+                    <div class = "more-info">
+                        <a class = "cta-btn cta-btn-sm" data-toggle="modal" href="#modal-{tag_productid}">Click for more details</a>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<!-- Modal -->
+<div class="modal fade modal-prod" id="modal-{tag_productid}" role="dialog">
+    <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <img alt="" src="{tag_smallimage_path}" class="footer-cta__hero-img" data-lead-id="footer-cta-hero-img" />
+                    </div>
+                    <div class="col-sm-7">
+                        <div class = "prod-title">
+                            <h3>{tag_name_nolink}</h3>
+                        </div>
+                        <div class="description">
+                            {{description | truncate: 300,"..."}}
+                            <a href="{tag_itemurl_nolink}">Read More</a>
+                        </div>
+                        <div class="quick-price">
+                            <h4>{tag_saleprice}</h4>
+                        </div>
+                        <div class="quick-add-cart">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    {tag_addtocartinputfield}
+                                </div>
+                                <div class="col-sm-7">
+                                    {tag_buynow,Buy Now}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+      
+    </div>
+</div>
+{%else%}
+    {%if custom1 == ""%}
+        {%assign col1 = "col-sm-6" %}
+        {%assign col2 = "col-sm-6" %}
+        {%assign vid_col = "hidden" %}
+    {%else%}
+        {%assign col1 = "col-sm-4" %}
+        {%assign col2 = "col-sm-4" %}
+        {%assign vid_col = "col-sm-4" %}
+    {%endif%}
+<div class="col-sm-12">
+    <div class="few-prod-item">
+    	<div class = "row">
+        	<div class="{{col1}}">
+                <div class = "prod-title">
+                    <h2>{tag_name}</h2>
+                </div>
+                <div class="footer-cta__prices" data-lead-id="footer-cta-prices">
+                    <p class="prices__buy-now" data-lead-id="prices-buy-now">{tag_saleprice}</p>
+                    <p class="prices__original" data-lead-id="prices-original">{tag_retailprice}</p>       
+                </div>
+                <a href="tag_itemurl_nolink}">
+                	<img alt="" src="{tag_smallimage_path}" class="footer-cta__hero-img" data-lead-id="footer-cta-hero-img" />
+                </a>
+            </div>
+            <div class="{{vid_col}}">
+                <div class="prod_vid_container">
+                    <a data-fancybox href="{{custom1}}" class="prod_vid_link">
+                      Video
+                    </a>
+                </div>
+            </div>
+            <div class="{{col2}}">
+            	<div class="description">
+                	{{description | truncate: 300,"..."}}
+                </div>
+                <div class = "more-info">
+                	<a href="{tag_itemurl_nolink}">Click for more details</a>
+                </div>
+                	{tag_addtocart}
+            </div>
+        </div>
+    </div>
+</div>
+{%endif%}
+    
+
+<!--<img alt="" src="{tag_smallimage_path}" class="footer-cta__hero-img" data-lead-id="footer-cta-hero-img" />
+<div class="footer-cta__prices" data-lead-id="footer-cta-prices">
+<p class="prices__original" data-lead-id="prices-original">{tag_retailprice}</p>
+<p class="prices__buy-now" data-lead-id="prices-buy-now">{tag_saleprice}</p>
+<p class="prices__disclaimer" data-lead-id="prices-disclaimer">if you buy now.</p>
+</div>
+{tag_buynow, CLICK HERE TO BUY NOW}-->

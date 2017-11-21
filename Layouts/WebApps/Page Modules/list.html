@@ -1,0 +1,29 @@
+<section class="{tag_classes} section-wrapper" style=" {% if this.['Background Color'] != '' -%}background-color: {tag_background color}; {% endif -%} {% if this.['TextColor'] != '' -%}color: {tag_text color}; {% endif -%} {% if this.['Text Alignment'] != '' -%}text-align: {tag_text alignment};{% endif -%}">
+
+  <div class="section-body {% if this.['Image'] != "" or this.['Video'] != "" -%}media{% endif -%}">
+  	{% if this.["Video"] != "" -%}
+    <div class="media__img--rev media--vc">
+      <div class="video-embed"> 
+      	{module_webapps id="34388" filter="item" itemId="{tag_video_id}" hideEmptyMessage="true"}
+      </div>
+    </div>
+    {% endif -%}
+    <div class="body_content">
+      <div {% if this.["Image"] != "" -%}class="media"{% endif -%}> 
+      	{% if this.["Image"] != "" -%}<img src="{tag_image_value}" alt="{tag_title}" class="photo media__img media--vc"/>{% endif -%}
+        {%if this.['Enable Subscription'] %}
+  			{module_webapps id="34617" filter="item" itemId="{{this.['Subscription Module_id']}}"}
+    
+  		{%endif%}
+        {%if this.Title != "" or this.['Short Description'] != "" or this.description != "" %}
+        <div class="media_text-wrap">
+          <h2 class="body_title">{tag_title}</h2>
+          <p class="sub-title">{tag_short description}</p>
+          {tag_description}
+          </div>
+        {%endif%}   
+      </div>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,99 @@
+{module_literature filter="item" itemId="{{this.['Media Download ID']}}" collection = "download_url" template = ""} 
+
+<div class="subscription_img text-center">
+	<a href="#" data-toggle="modal" data-target="#SignUpModal2{{this.['Mailing List ID']}}" style="display:inline-block"><img src = "{tag_image_value}" alt = "{tag_name_nolink}" ></a>
+</div>
+{%if this.['Mailing List ID'] != "" or this.['Media Download ID'] != ""%}
+{%if this.['Mailing List ID'] != "" and this.['Media Download ID'] != ""%}
+	{% assign header = "Subscribe to Download File" %}
+{%else%}
+	{%if this.['Mailing List ID'] != ""%}
+    	{% assign header = "Subscribe" %}
+    {% elsif this.['Media Download ID'] != "" %}
+    	{% assign header = "Download File" %}
+    {%endif%}
+
+{%endif%}
+
+<div class="modal fade SignUpModal2" id="SignUpModal2{{this.['Mailing List ID']}}" tabindex="-1" role="dialog" aria-labelledby="SignUpModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+    <h3 class="modal-title" id="SignUpModalLabel">{{header}}</h3>
+    </div>
+    <div class="modal-body">
+    {%endif%}
+        {%if this.['Media Download ID'] != ""%}  
+        {module_literature filter="item" itemId="{{this.['Media Download ID']}}"}  
+        {%assign file = true %} 
+        {%else%}    
+        {%assign file = false %} 
+        {%endif%}
+{%if this.['Mailing List ID'] != "" %}
+<script type="text/javascript" src="/CatalystScripts/ValidationFunctions.js?vs=b2133.r498670-phase1"></script>
+<form name="catemaillistform{{this.['Mailing List ID']}}" onsubmit="return checkWholeForm{{this.['Mailing List ID']}}(this)" method="post" action="/CampaignProcess.aspx?ListID={{this.['Mailing List ID']}}&amp;OPTIN=true" id="catemaillistform{{this.['Mailing List ID']}}">    
+    <div class="newsletter-form">
+    <div class="form">
+    <div class="item">
+    <label class="form-label" for="CLFullName">Full Name</label>
+    <input class="form-control" type="text" name="FullName" id="CLFullName" maxlength="255" />
+    </div>
+    <div class="item">
+    <label class="form-label" for="CLEmailAddress">Email Address</label>
+    <input class="form-control" type="text" name="EmailAddress" id="CLEmailAddress" maxlength="255" />
+    </div>
+    <div class="item captcha-row">
+    <label class="form-label">Enter Word Verification in box below</label>
+    <div class="captcha-wrapper">{module_captchav2}</div>
+    </div>
+    </div>
+    </div>
+   
+    <div class="modal-footer">
+    <button type="button" class="cancel cta-btn" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="submit cta-btn">Submit</button>
+    </div>
+    <script type="text/javascript">
+//<![CDATA[
+	
+function checkWholeForm{{this.['Mailing List ID']}}(theForm){
+	var why = "";
+	if (theForm.EmailAddress) why += checkEmail(theForm.EmailAddress.value);
+	if (theForm.CaptchaV2) why += captchaIsInvalid(theForm, "Enter Word Verification in box below", "Please enter the correct Word Verification as seen in the image"); 
+	if (theForm['g-recaptcha-response']) why += reCaptchaV2IsInvalid(theForm, "Please prove you're not a robot");
+	if (why != ""){
+		alert(why);
+		return false;
+	}
+	else{
+		
+	jQuery.ajax({
+		type: 'Post',
+		url: theForm.action,
+		data: $('#' + theForm.id).serialize(),
+		success: function(msg) {	
+			if( {{file}}){	
+				window.location.href = "{{download_url.items[0].fileUrl}}";
+				$("#SignUpModal2{{this.['Mailing List ID']}}").modal("hide");
+				$('.modal-body form').trigger('reset');				
+			}
+			else{
+				window.location.href = "/thank-you";
+			}
+		},
+		error: function(msg) {
+			console.log(msg);
+		}
+	});	
+	//theForm.submit();
+	return false;
+	}
+	}
+//]]>
+</script>
+</form>
+ </div>
+</div>
+</div>
+</div>
+{%endif%}

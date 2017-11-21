@@ -1,0 +1,28 @@
+{module_webapps id="37517" filter="item" itemId="6686768" collection = "shopping_settings" template = ""}
+<div class="container">
+{module_shoppingcartsummary,horizontal}
+    <div class="shop-content">
+        <div class="row">
+        {%if shopping_settings.items[0].['Product List Layout'] == "Many Products"%}
+            {% if globals.get.ProductID %}
+                {% assign browse_col =  "hidden"%}
+                {% assign product_col = "col-sm-12"%}
+            {%else%}
+                {% assign browse_col =  "col-sm-3"%}
+                {% assign product_col = "col-sm-9"%}
+            {%endif%}
+            <div class="{{browse_col}}">
+                {tag_browsepanel,false,false,true}
+            </div>
+            <div class="{{product_col}}">
+
+                {tag_productlist,4,,15,,true,true} 
+            </div>
+        {%else%}
+            {tag_productlist,,,12,,true,true} 
+        {%endif%}
+    
+        </div>
+    </div>
+</div>
+         
